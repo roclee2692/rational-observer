@@ -1,0 +1,12 @@
+data/
+*.duckdb
+*.sqlite
+vectors/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+# 私有配置覆盖(真实持仓/配比/watchlist),永不进仓库
+*.local.yaml
+config/assets.local.yaml

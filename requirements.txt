@@ -1,0 +1,13 @@
+# Phase 0 (MVP)
+pyyaml
+duckdb
+yfinance
+requests
+# Phase 1 (宏观/警报/L1向量记忆) —— 已启用
+numpy
+llama-cpp-python        # 本地嵌入(embeddinggemma gguf),L1/L2/L3 语义检索
+# Phase 2+ (可视化/调度,用到再装)
+# matplotlib
+# plotly
+# apscheduler
+# fredapi

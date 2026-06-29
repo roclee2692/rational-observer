@@ -1,0 +1,6 @@
+# 测试依赖。只列单元测试真正用到的运行时依赖 —— 不拉 llama-cpp-python /
+# yfinance 等重依赖(测试用内存 DuckDB 构造数据,不联网、不跑本地嵌入)。
+# 安装: pip install -r requirements-dev.txt
+pyyaml
+duckdb
+pytest>=7.0

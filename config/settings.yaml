@@ -1,0 +1,33 @@
+# settings.yaml — 系统行为参数 (阈值、路径、调度)。
+paths:
+  db: data/observer.duckdb        # L0 时序库 (DuckDB)
+  vectors: data/vectors           # L1-L3 向量库 (Chroma)
+  ledger: data/ledger.sqlite      # L4 预测台账 (SQLite)
+
+# 异常检测阈值 (Job 2)。宁缺毋滥——只推真正值得停下来看的。
+alerts:
+  drift_pct: 5.0          # 配比偏离目标 ±5% 触发再平衡提醒
+  vix_threshold: 30       # VIX 突破 30
+  daily_move_pct: 3.0     # 任一核心资产单日波动 > 3%
+
+# 分层记忆压缩策略 (第四节)
+memory:
+  l1_keep_days: 90        # 日志全文保留 90 天
+  l2_keep_days: 365       # 周报全文保留 1 年
+  # L3 主题 / L4 台账: 永久保留
+
+# 可视化: 默认英文标签,避免中文缺字 (用户偏好)
+viz:
+  lang: en
+  rolling_corr_window: 90
+  rolling_vol_window: 30
+
+# 推送目标(飞书 chat_id,周报推图用)。
+# 留空即不推送;填你自己的 chat_id 或用环境变量 OBSERVER_FEISHU_CHAT 覆盖。
+delivery:
+  feishu_chat: ""   # e.g. "oc_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# 调度模型
+models:
+  scheduler: haiku-4.5    # 日常采集/简报/简单查询
+  deep: dispatch          # 复杂分析分发给强模型

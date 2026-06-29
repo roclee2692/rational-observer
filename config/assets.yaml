@@ -1,0 +1,43 @@
+# assets.yaml — 资产宇宙的唯一定义 (Single Source of Truth) · 示例配置 / EXAMPLE.
+#
+# 这是一份演示用的通用配置。把它换成你自己的资产与目标配比即可 ——
+# 增删资产只改这里,不碰任何业务代码。
+#
+# 想保留私有配置又不进 git:复制本文件为 config/assets.local.yaml(已 gitignore),
+# 程序会自动优先读取它。 / To keep a private config out of git: copy this to
+# config/assets.local.yaml (gitignored) — it is loaded in preference automatically.
+#
+# 字段 / Fields:
+#   id          唯一标识(大写,数据库主键)
+#   name        显示名称
+#   layer       defense / equity / crypto(可持仓层) | commodity / realestate / ref(观察层)
+#   source      manual / yfinance / coingecko
+#   ticker      yfinance 代码 (source=yfinance 必填)
+#   coin_id     CoinGecko id 全小写 (source=coingecko 必填)
+#   target_pct  目标配比 (0 = 观察资产,只追踪不计入组合;持仓层合计必须 = 100%)
+#   enabled     是否采集 (false = 停用但保留历史)
+assets:
+  # ===== 防守层 / Defense (example total 40%) =====
+  - {id: CASH, name: Cash,     layer: defense, source: manual,   target_pct: 20, enabled: true}
+  - {id: GOLD, name: Gold,     layer: defense, source: yfinance, ticker: "GLD",  target_pct: 10, enabled: true}
+  - {id: BOND, name: Bonds,    layer: defense, source: yfinance, ticker: "TLT",  target_pct: 10, enabled: true}
+
+  # ===== 权益层 / Equity (example total 40%) =====
+  - {id: SPX,  name: S&P 500,  layer: equity,  source: yfinance, ticker: "VOO",  target_pct: 30, enabled: true}
+  - {id: EXUS, name: Ex-US,    layer: equity,  source: yfinance, ticker: "VXUS", target_pct: 10, enabled: true}
+
+  # ===== 高弹性层·持仓 / Crypto held (example total 20%) =====
+  - {id: BTC,  name: Bitcoin,  layer: crypto,  source: coingecko, coin_id: bitcoin,  target_pct: 12, enabled: true}
+  - {id: ETH,  name: Ethereum, layer: crypto,  source: coingecko, coin_id: ethereum, target_pct: 8,  enabled: true}
+
+  # ===== 观察仓 / Watch-only (target=0,只追踪不持有) =====
+  - {id: SOL,    name: Solana,        layer: crypto,     source: coingecko, coin_id: solana, target_pct: 0, enabled: true}
+  - {id: QQQ,    name: Nasdaq 100,    layer: equity,     source: yfinance, ticker: "QQQ",   target_pct: 0, enabled: true}
+  - {id: EEM,    name: Emerging Mkts, layer: equity,     source: yfinance, ticker: "EEM",   target_pct: 0, enabled: true}
+  - {id: OIL,    name: Crude Oil,     layer: commodity,  source: yfinance, ticker: "USO",   target_pct: 0, enabled: true}
+  - {id: SILVER, name: Silver,        layer: commodity,  source: yfinance, ticker: "SLV",   target_pct: 0, enabled: true}
+  - {id: REIT,   name: Real Estate,   layer: realestate, source: yfinance, ticker: "VNQ",   target_pct: 0, enabled: true}
+
+  # ===== 长历史指数 / Century indices (百年视角参考) =====
+  - {id: SP500,  name: S&P 500 (century), layer: ref, source: yfinance, ticker: "^GSPC", target_pct: 0, enabled: true}
+  - {id: NASDAQ, name: Nasdaq Composite,  layer: ref, source: yfinance, ticker: "^IXIC", target_pct: 0, enabled: true}
